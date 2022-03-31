@@ -1,8 +1,7 @@
 //! Signature validation.
 
-use crate::serialization::Bytes;
-
 use super::{Signing, Transaction, TypedData};
+use crate::serialization::Bytes;
 use anyhow::{ensure, Context as _, Result};
 use hdwallet::account::{Address, Signature};
 use mlua::{Function, Lua, LuaSerdeExt as _, StdLib, Value, Variadic};
