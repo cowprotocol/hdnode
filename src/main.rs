@@ -13,7 +13,14 @@ use crate::{
 use anyhow::Result;
 use hdwallet::mnemonic::Mnemonic;
 use reqwest::Url;
-use rocket::{fairing::AdHoc, serde::Deserialize};
+use rocket::{
+    fairing::AdHoc,
+    figment::{
+        providers::{Env, Format as _, Toml},
+        Profile,
+    },
+    serde::Deserialize,
+};
 
 const VERSION: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
 
@@ -42,7 +49,11 @@ struct Config {
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    rocket::build()
+    let figment = rocket::Config::figment()
+        .merge(Toml::file("/etc/hdnode.toml").profile(Profile::Global))
+        .merge(Env::prefixed("HDNODE_").global());
+
+    rocket::custom(figment)
         .attach(AdHoc::config::<Config>())
         .attach(AdHoc::try_on_ignite("hdnode::Node", |rocket| async {
             match init(rocket.state().unwrap()).await {
