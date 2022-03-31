@@ -3,8 +3,6 @@ mod node;
 mod serialization;
 mod signer;
 
-use std::path::PathBuf;
-
 use crate::{
     node::{eth::Eth, Node},
     serialization::{Addresses, Str},
@@ -21,6 +19,7 @@ use rocket::{
     },
     serde::Deserialize,
 };
+use std::path::PathBuf;
 
 const VERSION: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"));
 
