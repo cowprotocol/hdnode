@@ -12,16 +12,8 @@ jobs:
     steps:
       - name: "Get Team Members"
         id: team
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.ORG_TOKEN }}
-          result-encoding: string
-          script: |
-            const members = await github.paginate(
-              github.rest.orgs.listMembers,
-              { org: "cowprotocol" },
-            );
-            return members.map(m => m.login).join(",");
+        run: |
+          echo "::set-output name=version::$(cat VERSION)"
 
       - name: "CLA Assistant"
         if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
@@ -33,4 +25,4 @@ jobs:
           branch: 'cla-signatures'
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/cowprotocol/cla/blob/main/Cow%20Services%20CLA.md'
-          allowlist: ${{ steps.team.outputs.result }},*[bot]
+          allowlist: Nicholas Rodrigues Lordello
