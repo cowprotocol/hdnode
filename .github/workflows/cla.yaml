@@ -21,7 +21,6 @@ jobs:
               github.rest.orgs.listMembers,
               { org: "cowprotocol" },
             );
-            console.log(members.map(m => m.login).join(","));
             return members.map(m => m.login).join(",");
 
       - name: "CLA Assistant"
@@ -34,4 +33,4 @@ jobs:
           branch: 'cla-signatures'
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/cowprotocol/cla/blob/main/Cow%20Services%20CLA.md'
-          allowlist: "${{ steps.team.outputs.result }},*[bot]"
+          allowlist: '${{ steps.team.outputs.result }},*[bot]'
