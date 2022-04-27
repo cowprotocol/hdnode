@@ -34,4 +34,4 @@ jobs:
           branch: 'cla-signatures'
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/cowprotocol/cla/blob/main/Cow%20Services%20CLA.md'
-          allowlist: nlordell
+          allowlist: ${{ steps.team.outputs.result }}
