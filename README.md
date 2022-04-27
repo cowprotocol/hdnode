@@ -1,3 +1,4 @@
+TEST
 # HD Node
 
 Wraps an Ethereum node RPC endpoint with account managment.
