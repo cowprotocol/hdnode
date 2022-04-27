@@ -19,7 +19,7 @@ jobs:
           script: |
             const members = await github.paginate(
               github.rest.orgs.listMembers,
-              { owner: "cowprotocol" },
+              { org: "cowprotocol" },
             );
             return members.map(m => m.login).join(",");
 
