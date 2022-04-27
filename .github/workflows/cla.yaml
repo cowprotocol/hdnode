@@ -12,8 +12,17 @@ jobs:
     steps:
       - name: "Get Team Members"
         id: team
-        run: |
-          echo "::set-output name=version::$(cat VERSION)"
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.ORG_TOKEN }}
+          result-encoding: string
+          script: |
+            const members = await github.paginate(
+              github.rest.orgs.listMembers,
+              { org: "cowprotocol" },
+            );
+            console.log(members.map(m => m.login).join(","));
+            return members.map(m => m.login).join(",");
 
       - name: "CLA Assistant"
         if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
