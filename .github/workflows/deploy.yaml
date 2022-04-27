@@ -13,7 +13,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: docker/login-action@v1
         with:
@@ -35,3 +35,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - uses: cowprotocol/autodeploy-action@v1
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          pods: dfusion-v2-hdnode-mainnet,dfusion-v2-hdnode-rinkeby,dfusion-v2-hdnode-xdai
+          url: ${{ secrets.AUTODEPLOY_URL }}
+          token: ${{ secrets.AUTODEPLOY_TOKEN }}
